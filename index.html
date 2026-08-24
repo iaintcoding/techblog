@@ -71,6 +71,12 @@
       letter-spacing: 4px;
     }
 
+    @media (min-width: 1025px) {
+      body::before {
+        display: none;
+      }
+    }
+
     /* Splash Screen */
     #splash-container {
       position: fixed;
@@ -409,6 +415,12 @@
       z-index: 0;
     }
 
+    @media (min-width: 1025px) {
+      .post-card::after {
+        display: none;
+      }
+    }
+
     .post-card > * {
       position: relative;
       z-index: 1;
@@ -695,6 +707,18 @@
 
     footer.app-footer strong { color: var(--navy-primary); }
 
+    .footer-admin-trigger {
+      cursor: pointer;
+      opacity: 0.45;
+      padding: 0 2px;
+      user-select: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-admin-trigger:hover {
+      opacity: 0.8;
+    }
+
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -818,7 +842,6 @@
         </h1>
       </div>
       <div class="header-actions">
-        <button class="btn-secondary public-only" id="loginModalBtn" style="font-size: 0.8rem;">Admin Login</button>
         <button class="btn-danger admin-only" id="clearAllBtn" style="font-size: 0.8rem;">Clear Storage</button>
         <button class="btn-secondary admin-only" id="logoutBtn" style="font-size: 0.8rem;">Logout</button>
       </div>
@@ -882,7 +905,7 @@
 
     <footer class="app-footer">
       <p>&copy; <strong>Sivakumar</strong>. All rights reserved.</p>
-      <p>Citation: Design and workflow ideas. Do not try to copy or replicate in any form; it is strictly prohibited.</p>
+      <p>Citation: Design and workflow ideas. Do not try to copy or replicate in any form; it is strictly prohibited. <span class="public-only footer-admin-trigger" id="loginModalBtn">&middot;</span></p>
       <p>Disclaimer: The information provided on this blog is for general informational purposes only. We make no guarantees regarding its accuracy, completeness, or reliability. Readers use all information at their own discretion and risk.</p>
     </footer>
   </div>
