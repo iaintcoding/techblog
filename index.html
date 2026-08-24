@@ -15,18 +15,18 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
     :root {
-      --bg-color: #f7f5f0;
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --card-bg-solid: #ffffff;
-      --navy-primary: #1a2942;
-      --navy-hover: #0f1a2e;
+      --bg-color: #0b0b0e;
+      --card-bg: rgba(22, 22, 28, 0.85);
+      --card-bg-solid: #16161c;
+      --navy-primary: #f1f5f9;
+      --navy-hover: #ffffff;
       --gold-accent: #c49547;
       --gold-light: rgba(196, 149, 71, 0.15);
       --danger-color: #e11d48;
       --danger-hover: #be123c;
-      --text-main: #1a2433;
-      --text-muted: #64748b;
-      --border-color: rgba(26, 41, 66, 0.12);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
       --ripple-color: #c49547;
     }
 
@@ -43,13 +43,12 @@
       padding: 30px; 
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      /* Subtle copyright background watermark pattern */
+      /* Torn paper split aesthetic background inspired by the reference video */
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(196, 149, 71, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(26, 41, 66, 0.05) 0%, transparent 40%),
-        linear-gradient(rgba(26, 41, 66, 0.012) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(26, 41, 66, 0.012) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 120px 120px, 120px 120px;
+        linear-gradient(135deg, #0b0b0e 0%, #16161c 50%, #0b0b0e 100%),
+        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 15% 85%, rgba(196, 149, 71, 0.05) 0%, transparent 40%);
+      background-size: 100% 100%, 100% 100%, 100% 100%;
       background-attachment: fixed;
       overflow-x: hidden;
       position: relative;
@@ -64,7 +63,7 @@
       transform: translate(-50%, -50%) rotate(-30deg);
       font-size: 6vw;
       font-weight: 800;
-      color: rgba(26, 41, 66, 0.022);
+      color: rgba(255, 255, 255, 0.015);
       white-space: nowrap;
       pointer-events: none;
       z-index: 0;
@@ -97,7 +96,7 @@
       left: 0;
       width: 100%;
       height: 50%;
-      background: #1a2942;
+      background: #0b0b0e;
       z-index: 10;
       transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
     }
@@ -242,7 +241,7 @@
       padding: 28px;
       border-radius: 24px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 10px 30px rgba(26, 41, 66, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       position: sticky;
       top: 30px;
       display: none;
@@ -266,7 +265,7 @@
       display: block; 
       margin-bottom: 8px; 
       font-size: 0.8rem; 
-      color: var(--navy-primary); 
+      color: var(--text-muted); 
       font-weight: 700;
       letter-spacing: 0.2px;
     }
@@ -274,7 +273,7 @@
     input[type="text"], input[type="email"], input[type="password"], textarea, select {
       width: 100%;
       padding: 12px 14px;
-      background-color: #fcfbf9;
+      background-color: #0b0b0e;
       border: 1px solid var(--border-color);
       border-radius: 12px;
       color: var(--text-main);
@@ -285,7 +284,7 @@
     input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
       outline: none;
       border-color: var(--gold-accent);
-      background-color: #ffffff;
+      background-color: #16161c;
       box-shadow: 0 0 0 4px var(--gold-light);
     }
 
@@ -326,7 +325,7 @@
       margin-top: 10px;
       display: none;
       border: 1px solid var(--border-color);
-      background-color: #f8fafc;
+      background-color: #0b0b0e;
     }
 
     .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -346,24 +345,25 @@
     button:active { transform: translateY(0) scale(0.96); }
 
     .btn-primary { 
-      background: var(--navy-primary); 
-      color: #ffffff; 
+      background: #ffffff; 
+      color: #0b0b0e; 
       flex: 1; 
-      box-shadow: 0 4px 15px rgba(26, 41, 66, 0.2);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
     }
     .btn-primary:hover { 
-      background: var(--navy-hover);
-      box-shadow: 0 8px 25px rgba(26, 41, 66, 0.3); 
+      background: var(--gold-accent);
+      color: #ffffff;
+      box-shadow: 0 8px 25px rgba(196, 149, 71, 0.3); 
     }
 
     .btn-secondary { 
-      background: #ffffff; 
+      background: #22222c; 
       color: var(--navy-primary); 
       border: 1px solid var(--border-color);
     }
     .btn-secondary:hover { 
-      background: #f8fafc; 
-      border-color: var(--navy-primary);
+      background: #2e2e3a; 
+      border-color: var(--gold-accent);
     }
 
     .btn-danger { 
@@ -389,7 +389,7 @@
       gap: 18px;
     }
 
-    /* Post Card with Subtle © Sivakumar Background Watermark */
+    /* Post Card styled with Torn-Edge Interaction Motif */
     .post-card {
       background: var(--card-bg-solid);
       border-radius: 20px;
@@ -397,7 +397,7 @@
       padding: 24px;
       cursor: pointer;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(26, 41, 66, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       position: relative;
       transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
@@ -409,7 +409,7 @@
       bottom: 12px;
       font-size: 1.1rem;
       font-weight: 800;
-      color: rgba(26, 41, 66, 0.035);
+      color: rgba(255, 255, 255, 0.025);
       pointer-events: none;
       letter-spacing: 2px;
       z-index: 0;
@@ -433,7 +433,7 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, var(--navy-primary), var(--gold-accent));
+      background: linear-gradient(90deg, #ffffff, var(--gold-accent));
       opacity: 0.8;
       z-index: 2;
     }
@@ -441,12 +441,14 @@
     .post-card:hover {
       border-color: var(--gold-accent);
       transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(26, 41, 66, 0.1);
+      box-shadow: 0 12px 30px rgba(196, 149, 71, 0.15);
     }
 
     .post-card.expanded {
-      border-color: var(--navy-primary);
-      box-shadow: 0 12px 30px rgba(26, 41, 66, 0.12);
+      border-color: #ffffff;
+      box-shadow: 0 12px 30px rgba(255, 255, 255, 0.08);
+      /* Torn paper edge reveal effect simulation on active expand */
+      background: linear-gradient(135deg, #16161c 0%, #1f1f2b 100%);
     }
 
     .card-header-meta {
@@ -467,10 +469,10 @@
       text-transform: capitalize;
     }
 
-    .post-tag.tag-article { background: rgba(26, 41, 66, 0.08); color: var(--navy-primary); }
+    .post-tag.tag-article { background: rgba(255, 255, 255, 0.08); color: #f1f5f9; }
     .post-tag.tag-unboxing { background: var(--gold-light); color: var(--gold-accent); }
-    .post-tag.tag-news { background: rgba(16, 185, 129, 0.1); color: #059669; }
-    .post-tag.tag-comparison { background: rgba(168, 85, 247, 0.1); color: #7c3aed; }
+    .post-tag.tag-news { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .post-tag.tag-comparison { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
 
     .post-meta { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
 
@@ -491,9 +493,9 @@
     .accordion-icon {
       font-size: 0.85rem;
       color: var(--navy-primary);
-      background: rgba(26, 41, 66, 0.06);
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 50%;
-      transition: transform 0.4s ease;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -504,8 +506,8 @@
 
     .post-card.expanded .accordion-icon {
       transform: rotate(180deg);
-      background: var(--navy-primary);
-      color: #fff;
+      background: #ffffff;
+      color: #0b0b0e;
     }
 
     .accordion-body {
@@ -528,7 +530,7 @@
       overflow: hidden;
       margin-bottom: 20px;
       position: relative;
-      background-color: #f8fafc;
+      background-color: #0b0b0e;
       border: 1px solid var(--border-color);
       display: flex;
       align-items: center;
@@ -566,27 +568,27 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       min-height: 74px;
       text-align: left;
       position: relative;
     }
 
-    .spec-pill.spec-processor { background: #eef2ff; border-color: #c7d2fe; }
-    .spec-pill.spec-processor span { color: #4f46e5; }
-    .spec-pill.spec-processor strong { color: #312e81; }
+    .spec-pill.spec-processor { background: rgba(99, 102, 241, 0.12); border-color: rgba(99, 102, 241, 0.3); }
+    .spec-pill.spec-processor span { color: #818cf8; }
+    .spec-pill.spec-processor strong { color: #e0e7ff; }
 
-    .spec-pill.spec-memory { background: #fffbeb; border-color: #fde68a; }
-    .spec-pill.spec-memory span { color: #d97706; }
-    .spec-pill.spec-memory strong { color: #78350f; }
+    .spec-pill.spec-memory { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); }
+    .spec-pill.spec-memory span { color: #fbbf24; }
+    .spec-pill.spec-memory strong { color: #fef3c7; }
 
-    .spec-pill.spec-camera { background: #ecfdf5; border-color: #a7f3d0; }
-    .spec-pill.spec-camera span { color: #059669; }
-    .spec-pill.spec-camera strong { color: #064e3b; }
+    .spec-pill.spec-camera { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); }
+    .spec-pill.spec-camera span { color: #34d399; }
+    .spec-pill.spec-camera strong { color: #d1fae5; }
 
-    .spec-pill.spec-battery { background: #fff1f2; border-color: #fecdd3; }
-    .spec-pill.spec-battery span { color: #e11d48; }
-    .spec-pill.spec-battery strong { color: #881337; }
+    .spec-pill.spec-battery { background: rgba(225, 29, 72, 0.12); border-color: rgba(225, 29, 72, 0.3); }
+    .spec-pill.spec-battery span { color: #fb7185; }
+    .spec-pill.spec-battery strong { color: #ffe4e6; }
 
     .spec-pill span { 
       display: flex;
@@ -611,7 +613,7 @@
       overflow: hidden;
     }
 
-    /* Custom animated tooltip (replaces the native browser title box) */
+    /* Custom animated tooltip */
     .spec-pill[data-tooltip] {
       cursor: help;
     }
@@ -622,7 +624,7 @@
       left: 50%;
       bottom: calc(100% + 12px);
       transform: translateX(-50%) translateY(10px) scale(0.8);
-      background: var(--navy-primary);
+      background: #22222c;
       color: #ffffff;
       padding: 9px 14px;
       border-radius: 12px;
@@ -633,7 +635,7 @@
       width: max-content;
       max-width: 220px;
       text-align: center;
-      box-shadow: 0 12px 28px rgba(26, 41, 66, 0.4), 0 0 0 1.5px var(--gold-accent);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 0 1.5px var(--gold-accent);
       opacity: 0;
       pointer-events: none;
       z-index: 50;
@@ -647,7 +649,7 @@
       bottom: 100%;
       transform: translateX(-50%) translateY(6px) scale(0.6);
       border: 6px solid transparent;
-      border-top-color: var(--navy-primary);
+      border-top-color: #22222c;
       opacity: 0;
       pointer-events: none;
       z-index: 50;
@@ -670,8 +672,8 @@
     }
 
     @keyframes tooltipGlowPulse {
-      0%, 100% { box-shadow: 0 12px 28px rgba(26, 41, 66, 0.4), 0 0 0 1.5px var(--gold-accent), 0 0 10px rgba(196, 149, 71, 0.25); }
-      50% { box-shadow: 0 12px 28px rgba(26, 41, 66, 0.4), 0 0 0 1.5px var(--gold-accent), 0 0 20px rgba(196, 149, 71, 0.6); }
+      0%, 100% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 0 1.5px var(--gold-accent), 0 0 10px rgba(196, 149, 71, 0.25); }
+      50% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 0 1.5px var(--gold-accent), 0 0 20px rgba(196, 149, 71, 0.6); }
     }
 
     .card-actions {
@@ -725,7 +727,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(26, 41, 66, 0.6);
+      background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
@@ -742,13 +744,13 @@
     }
 
     .modal-card {
-      background: #ffffff;
+      background: #16161c;
       border: 1px solid var(--border-color);
       border-radius: 24px;
       padding: 32px;
       width: 100%;
       max-width: 400px;
-      box-shadow: 0 20px 50px rgba(26, 41, 66, 0.2);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
       position: relative;
     }
 
@@ -797,17 +799,17 @@
         <text x="54" y="15" fill="#c49547" font-size="8.5" font-weight="bold" font-family="monospace">1</text>
 
         <!-- Smartphone Body -->
-        <rect x="24" y="20" width="36" height="60" rx="8" fill="none" stroke="#1a2942" stroke-width="3.5"/>
-        <line x1="37" y1="23" x2="47" y2="23" stroke="#1a2942" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="42" cy="76" r="2.2" fill="#1a2942"/>
+        <rect x="24" y="20" width="36" height="60" rx="8" fill="none" stroke="#f1f5f9" stroke-width="3.5"/>
+        <line x1="37" y1="23" x2="47" y2="23" stroke="#f1f5f9" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="42" cy="76" r="2.2" fill="#f1f5f9"/>
 
         <!-- Reader's Profile Silhouette fused to the right of the phone -->
-        <path d="M 60,30 C 69,30 73,43 69,52 C 67,56 67,61 69,66 C 70,70 65,74 60,74" fill="none" stroke="#1a2942" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M 60,30 C 69,30 73,43 69,52 C 67,56 67,61 69,66 C 70,70 65,74 60,74" fill="none" stroke="#f1f5f9" stroke-width="3.2" stroke-linecap="round"/>
 
         <!-- Inner Screen Glow & Check Badge -->
         <circle cx="42" cy="48" r="12" fill="#c49547" fill-opacity="0.18"/>
-        <path d="M 37,48 L 40,51 L 48,43" fill="none" stroke="#1a2942" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M 36,58 Q 42,63 48,58" fill="none" stroke="#1a2942" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M 37,48 L 40,51 L 48,43" fill="none" stroke="#f1f5f9" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 36,58 Q 42,63 48,58" fill="none" stroke="#f1f5f9" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
       <span>Mobile Stories</span>
     </div>
@@ -825,17 +827,17 @@
           <text x="54" y="15" fill="#c49547" font-size="8.5" font-weight="bold" font-family="monospace">1</text>
 
           <!-- Smartphone Body -->
-          <rect x="24" y="20" width="36" height="60" rx="8" fill="none" stroke="#1a2942" stroke-width="3.5"/>
-          <line x1="37" y1="23" x2="47" y2="23" stroke="#1a2942" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="42" cy="76" r="2.2" fill="#1a2942"/>
+          <rect x="24" y="20" width="36" height="60" rx="8" fill="none" stroke="#f1f5f9" stroke-width="3.5"/>
+          <line x1="37" y1="23" x2="47" y2="23" stroke="#f1f5f9" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="42" cy="76" r="2.2" fill="#f1f5f9"/>
 
           <!-- Reader's Profile Silhouette fused to the right of the phone -->
-          <path d="M 60,30 C 69,30 73,43 69,52 C 67,56 67,61 69,66 C 70,70 65,74 60,74" fill="none" stroke="#1a2942" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M 60,30 C 69,30 73,43 69,52 C 67,56 67,61 69,66 C 70,70 65,74 60,74" fill="none" stroke="#f1f5f9" stroke-width="3.2" stroke-linecap="round"/>
 
           <!-- Inner Screen Glow & Check Badge -->
           <circle cx="42" cy="48" r="12" fill="#c49547" fill-opacity="0.18"/>
-          <path d="M 37,48 L 40,51 L 48,43" fill="none" stroke="#1a2942" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M 36,58 Q 42,63 48,58" fill="none" stroke="#1a2942" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M 37,48 L 40,51 L 48,43" fill="none" stroke="#f1f5f9" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 36,58 Q 42,63 48,58" fill="none" stroke="#f1f5f9" stroke-width="2.2" stroke-linecap="round"/>
         </svg>
         <h1>
           Mobile Stories<span class="sub-title">, more or less</span>
