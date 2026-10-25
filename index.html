@@ -125,6 +125,32 @@
       align-items: center;
     }
 
+    /* Toast Notification */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--navy-primary);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 10000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast-msg.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* Splash Screen */
     #splash-container {
       position: fixed;
@@ -453,6 +479,23 @@
       box-shadow: 0 6px 20px rgba(225, 29, 72, 0.3);
     }
 
+    .btn-icon-link {
+      background: rgba(15, 23, 42, 0.05);
+      color: var(--navy-primary);
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-color);
+    }
+    .btn-icon-link:hover {
+      background: var(--gold-accent);
+      color: #fff;
+      border-color: var(--gold-accent);
+    }
+
     .feed-panel h2 { 
       margin-bottom: 20px; 
       font-size: 1.3rem; 
@@ -481,6 +524,15 @@
       position: relative;
       transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
       scroll-margin-top: 95px; /* Ensures smooth auto-scroll alignment from top header */
+    }
+
+    .post-card.target-highlight {
+      animation: pulseTarget 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseTarget {
+      0% { box-shadow: 0 0 0 2px var(--gold-accent), 0 12px 35px rgba(234, 88, 12, 0.2); }
+      100% { box-shadow: 0 0 0 5px rgba(234, 88, 12, 0.4), 0 16px 45px rgba(234, 88, 12, 0.3); }
     }
 
     .post-card::after {
@@ -552,6 +604,12 @@
 
     .post-tag.tag-article { background: rgba(15, 23, 42, 0.06); color: var(--navy-primary); }
     .post-tag.tag-news { background: rgba(13, 148, 136, 0.15); color: #0f766e; }
+
+    .header-link-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
     .post-meta { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
 
@@ -935,6 +993,11 @@
     </div>
   </div>
 
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-msg" id="toastMsg">
+    <span>🔗 Direct Link Copied to Clipboard!</span>
+  </div>
+
   <!-- SPLASH SCREEN -->
   <div id="splash-container">
     <div class="curtain curtain-top"></div>
@@ -1155,6 +1218,7 @@
 
       setTimeout(() => {
         splashContainer.classList.add('hidden');
+        handleUrlHash();
       }, 3200);
     });
 
@@ -1181,7 +1245,7 @@
           renderPosts();
         })
         .catch(() => {
-          alert("Invalid Password!");
+          showToast("Invalid Password!");
         })
         .finally(() => {
           submitBtn.disabled = false;
@@ -1234,11 +1298,21 @@
       .onSnapshot((snapshot) => {
         posts = snapshot.docs.map(doc => doc.data());
         renderPosts();
+        handleUrlHash();
       }, (error) => {
         console.error('Firestore read error:', error);
         document.getElementById('feedContainer').innerHTML =
           '<div class="empty-state">Could not load articles. Please refresh.</div>';
       });
+
+    function showToast(message) {
+      const toast = document.getElementById('toastMsg');
+      toast.querySelector('span').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
 
     function getCategoryClass(category) {
       switch ((category || '').toLowerCase()) {
@@ -1306,6 +1380,57 @@
       });
     }
 
+    /* URL Hash Router & Deep Linking Logic */
+    function getPostShareableUrl(postId) {
+      const baseUrl = window.location.href.split('#')[0];
+      return `${baseUrl}#post-${postId}`;
+    }
+
+    window.openPostInNewTab = function(event, postId) {
+      event.stopPropagation();
+      const directUrl = getPostShareableUrl(postId);
+      window.open(directUrl, '_blank');
+    };
+
+    window.copyPostLink = function(event, postId) {
+      event.stopPropagation();
+      const directUrl = getPostShareableUrl(postId);
+      
+      // Copy to clipboard fallback mechanism
+      const textarea = document.createElement('textarea');
+      textarea.value = directUrl;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('🔗 Direct Link Copied to Clipboard!');
+      } catch (err) {
+        showToast('Link created: ' + directUrl);
+      }
+      document.body.removeChild(textarea);
+    };
+
+    function handleUrlHash() {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#post-')) {
+        const postId = hash.replace('#post-', '');
+        const targetCard = document.querySelector(`.post-card[data-id="${postId}"]`);
+        if (targetCard) {
+          // Expand target post
+          expandedPostId = postId;
+          document.querySelectorAll('.post-card').forEach(card => card.classList.remove('expanded', 'target-highlight'));
+          targetCard.classList.add('expanded', 'target-highlight');
+
+          // Scroll directly to focused story
+          setTimeout(() => {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 300);
+        }
+      }
+    }
+
+    window.addEventListener('hashchange', handleUrlHash);
+
     function renderPosts() {
       const feedContainer = document.getElementById('feedContainer');
       feedContainer.innerHTML = '';
@@ -1322,6 +1447,7 @@
         const tagText = getDynamicCategoryTag(post);
 
         article.className = `post-card ${isExpanded ? 'expanded' : ''}`;
+        article.id = `post-${post.id}`;
         article.setAttribute('data-id', post.id);
 
         let specsHTML = '';
@@ -1342,7 +1468,11 @@
           <div onclick="toggleAccordion('${post.id}')">
             <div class="card-header-meta">
               <span class="post-tag ${tagClass}">${tagText}</span>
-              <span class="post-meta">${post.date}</span>
+              <div class="header-link-tools">
+                <button class="btn-icon-link" title="Open in New Tab with unique URL" onclick="openPostInNewTab(event, '${post.id}')">🔗 New Tab</button>
+                <button class="btn-icon-link" title="Copy Direct URL Link" onclick="copyPostLink(event, '${post.id}')">📋 Copy Link</button>
+                <span class="post-meta">${post.date}</span>
+              </div>
             </div>
             <div class="card-title-row">
               <h3 class="post-title">${post.title}</h3>
@@ -1375,15 +1505,19 @@
         if (cardId === id) {
           const isCurrentlyExpanded = card.classList.contains('expanded');
           if (isCurrentlyExpanded) {
-            card.classList.remove('expanded');
+            card.classList.remove('expanded', 'target-highlight');
             expandedPostId = null;
+            if (window.location.hash === `#post-${id}`) {
+              history.pushState("", document.title, window.location.pathname + window.location.search);
+            }
           } else {
             card.classList.add('expanded');
             expandedPostId = id;
             targetCard = card;
+            window.location.hash = `post-${id}`;
           }
         } else {
-          card.classList.remove('expanded');
+          card.classList.remove('expanded', 'target-highlight');
         }
       });
 
@@ -1469,7 +1603,7 @@
         }).then(() => {
           resetForm();
         }).catch((err) => {
-          alert("Storage Full: Images are taking too much space. Delete older posts or choose smaller images.");
+          showToast("Storage Full: Images are taking too much space. Delete older posts or choose smaller images.");
           console.error(err);
         }).finally(() => {
           submitBtn.disabled = false;
@@ -1486,7 +1620,7 @@
         db.collection(POSTS_COLLECTION).doc(newId).set(newPost).then(() => {
           resetForm();
         }).catch((err) => {
-          alert("Storage Full: Images are taking too much space. Delete older posts or choose smaller images.");
+          showToast("Storage Full: Images are taking too much space. Delete older posts or choose smaller images.");
           console.error(err);
         }).finally(() => {
           submitBtn.disabled = false;
@@ -1529,7 +1663,7 @@
       if (confirm('Are you sure you want to delete this article?')) {
         if (expandedPostId === id) expandedPostId = null;
         db.collection(POSTS_COLLECTION).doc(id).delete().catch((err) => {
-          alert("Could not delete this article. Please try again.");
+          showToast("Could not delete this article. Please try again.");
           console.error(err);
         });
       }
@@ -1544,7 +1678,7 @@
           batch.delete(db.collection(POSTS_COLLECTION).doc(post.id));
         });
         batch.commit().catch((err) => {
-          alert("Could not clear articles. Please try again.");
+          showToast("Could not clear articles. Please try again.");
           console.error(err);
         });
       }
