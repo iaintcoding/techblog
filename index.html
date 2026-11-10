@@ -878,6 +878,29 @@
 
     body.is-admin:not(.preview-active) .card-actions { display: flex; }
 
+    /* Admin Delete Selection Checkbox Styling */
+    .post-select-checkbox {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 22px;
+      height: 22px;
+      accent-color: var(--gold-accent);
+      cursor: pointer;
+      display: none;
+      z-index: 10;
+    }
+    body.is-admin:not(.preview-active) .post-select-checkbox {
+      display: block;
+    }
+    /* Shift card header spacing when checkbox is visible */
+    body.is-admin:not(.preview-active) .card-header-meta {
+      padding-left: 32px;
+    }
+    body.is-admin:not(.preview-active) .card-title-row {
+      padding-left: 32px;
+    }
+
     .empty-state {
       width: 100%;
       text-align: center;
@@ -988,7 +1011,7 @@
     </div>
     <div class="admin-bar-actions">
       <button class="btn-secondary" id="previewToggleBtn" style="font-size: 0.8rem; padding: 8px 14px; background: var(--gold-light); color: var(--gold-accent); border-color: var(--gold-accent);">Toggle Public Preview</button>
-      <button class="btn-danger" id="clearAllBtn" style="font-size: 0.8rem; padding: 8px 14px;">Clear Storage</button>
+      <button class="btn-danger" id="clearAllBtn" style="font-size: 0.8rem; padding: 8px 14px;">Delete Selected</button>
       <button class="btn-secondary" id="logoutBtn" style="font-size: 0.8rem; padding: 8px 14px;">Logout</button>
     </div>
   </div>
@@ -1475,6 +1498,7 @@
         }
 
         article.innerHTML = `
+          <input type="checkbox" class="post-select-checkbox" data-id="${post.id}" onclick="event.stopPropagation()">
           <div onclick="toggleAccordion('${post.id}')">
             <div class="card-header-meta">
               <span class="post-tag ${tagClass}">${tagText}</span>
@@ -1681,14 +1705,22 @@
 
     document.getElementById('clearAllBtn').addEventListener('click', function() {
       if (!isAdminLoggedIn) return;
-      if (confirm('Clear all articles from the blog? This cannot be undone.')) {
-        expandedPostId = null;
+      const selectedCheckboxes = document.querySelectorAll('.post-select-checkbox:checked');
+      if (selectedCheckboxes.length === 0) {
+        showToast("Please select at least one article to delete.");
+        return;
+      }
+      if (confirm(`Are you sure you want to delete the ${selectedCheckboxes.length} selected article(s)?`)) {
         const batch = db.batch();
-        posts.forEach(post => {
-          batch.delete(db.collection(POSTS_COLLECTION).doc(post.id));
+        selectedCheckboxes.forEach(cb => {
+          const id = cb.getAttribute('data-id');
+          if (expandedPostId === id) expandedPostId = null;
+          batch.delete(db.collection(POSTS_COLLECTION).doc(id));
         });
-        batch.commit().catch((err) => {
-          showToast("Could not clear articles. Please try again.");
+        batch.commit().then(() => {
+          showToast("Selected articles deleted successfully.");
+        }).catch((err) => {
+          showToast("Could not delete selected articles. Please try again.");
           console.error(err);
         });
       }
